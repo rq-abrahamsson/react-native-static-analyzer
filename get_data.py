@@ -3,6 +3,7 @@
 import re
 import sh
 import sys
+import os.path
 
 
 if len(sys.argv) >= 3:
@@ -11,6 +12,28 @@ if len(sys.argv) >= 3:
 else:
     print("Usage examples: \n./get_data.py src/menu Menu\n./get_data.py src/navbar NavBar")
     exit(1)
+
+def get_column(s):
+    return "{:0.2f}\t".format(s)
+
+if not os.path.isfile(file_name):
+    print(get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0) +
+          get_column(0))
+    exit(0)
 
 
 def get_matches_from_file(regex, file_name):
@@ -95,7 +118,7 @@ def get_rfc(file_name):
         methods = map(lambda x: re.findall('\w*\(',x)[0], method_lines)
         numbers = map(lambda x: sh.grep(" " + x,file_name,'-c'), methods)
         count = reduce(lambda x, y: int(x) + int(y), numbers)
-        rfc = count-len(method_lines)
+        rfc = int(count)-len(method_lines)
         return rfc
 
 
@@ -178,11 +201,11 @@ def get_class_attributes(file_name):
     if len(in_state) > 0:
         state_elements = in_state[0].split(' ')
     else:
-        state_elements = 0
+        state_elements = []
     if len(in_props) > 0:
         props_elements = in_props[0].split(' ')
     else:
-        props_elements = 0
+        props_elements = []
     attributes = map(remake_attribute,filter(is_attribute,state_elements)) + map(remake_attribute,filter(is_attribute,props_elements))
     return attributes
 
@@ -201,6 +224,8 @@ def get_sum_of_attributes_in_methods(file_name):
 def get_LCOM(file_name):
     a_sum = get_sum_of_attributes_in_methods(file_name)
     nr_attributes = len(get_class_attributes(file_name))
+    if number_of_methods == 1:
+        return 1
     return float((a_sum/nr_attributes)-number_of_methods)/float(1-number_of_methods)
 
 
@@ -227,8 +252,6 @@ subclasses = 0
 #######
 # Print result
 #######
-def get_column(s):
-    return "{:0.2f}\t".format(s)
 
 print(get_column(total_lines) +
       get_column(number_of_methods) +
