@@ -104,8 +104,11 @@ with open(file_name, 'r') as f:
     matches = re.findall('import.*\.\/.*\;',s)
     effCoupling = len(matches)
 
-import_regexp = "import.*" + class_name + "'*\;"
-affCoupling = len(sh.grep("-r", import_regexp, "src", "index.android.js", "index.ios.js").splitlines())
+import_regexp = "import.*" + class_name + "\'*\;"
+try:
+    affCoupling = len(sh.grep("-r", import_regexp, "src", "index.android.js", "index.ios.js").splitlines())
+except:
+    affCoupling = 0
 
 ############
 # Get RFC
