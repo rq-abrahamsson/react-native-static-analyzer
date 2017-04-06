@@ -234,7 +234,7 @@ def get_LCOM(file_name):
 ########
 def get_mfa():
     inherited = ['componentWillMount','componentDidMount','componentWillReceiveProps','componentWillUpdate','componentDidUpdate','componentWillUnmount','constructor','render']
-    return number_of_methods / (number_of_methods-number_of_overridden_methods+len(inherited))
+    return number_of_methods / float(number_of_methods-number_of_overridden_methods+len(inherited))
 
 
 #######
