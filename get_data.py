@@ -229,6 +229,8 @@ def get_LCOM(file_name):
     nr_attributes = len(get_class_attributes(file_name))
     if number_of_methods == 1:
         return 1
+    if nr_attributes == 0:
+        return 0
     return float((a_sum/nr_attributes)-number_of_methods)/float(1-number_of_methods)
 
 
@@ -250,7 +252,7 @@ lcom = get_LCOM(file_name)
 mfa = get_mfa()
 nesting_level = get_nesting_level(file_name)
 subclasses = 0
-
+loc_by_methods = total_lines/number_of_methods
 
 #######
 # Print result
@@ -260,7 +262,7 @@ print(get_column(total_lines) +
       get_column(number_of_methods) +
       get_column(number_of_overridden_methods) +
       get_column(total_comments) +
-      get_column(total_lines/number_of_methods) +
+      get_column(loc_by_methods) +
       get_column(total_comments/(total_comments+total_lines)) +
       get_column(rfc) +
       get_column(affCoupling) +
